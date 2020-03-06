@@ -3,8 +3,8 @@ import zxing
 import cv2
 
 class QR:
-    #photo = 'camera.jpg'
-    photo = './Users/user/Desktop/testtest/camera.jpg'
+    photo = 'camera.jpg'
+    #photo = './home/pi/3907_Project/testtest/camera.jpg'
 
     def code(self):
         data1 = "盒子"                       # 二维码内容

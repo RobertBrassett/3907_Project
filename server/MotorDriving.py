@@ -11,11 +11,12 @@ motor_right2 = 8 #pin 15 on L293D
 
 #pwm_pinL = 10 #pin 16 L293D
 #pwm_pinR = 11 #pin 1 L293D
+
 #ultrasonic_trig = 23
 #ultrasonic_echo = 24
 #data_bus = smbus2.SMBus(1)
 
-class movment:
+class Movement:
     def __init__(self):
         #initialize pins
         gpio.setmode(gpio.BOARD)
@@ -41,35 +42,35 @@ class movment:
         gpio.output(motor_right1, right2)
 
     def stop(self):
-        self.set_motors(True,True,True,True)
+        self.set_motors(1,1,1,1)
         sleep(1)
 
     def go_fwd(self,secs):
         if secs == 0:
-            self.set_motors(False, True, False, False)
+            self.set_motors(0,1,0,1)
         else:
-            self.set_motors(False, True, False, True)
+            self.set_motors(0,1,0,1)
             sleep(secs)
 
     def go_bwd(self,secs):
         if secs == 0:
-            self.set_motors(True, False, True, False)
+            self.set_motors(1,0,1,0)
         else:
-            self.set_motors(True, False, True, True)
+            self.set_motors(1,0,1,0)
             sleep(secs)
 
     def go_l(self,secs):
         if secs == 0:
-            self.set_motors(True, True, False, True)
+            self.set_motors(1,1,0,1)
         else:
-            self.set_motors(True, True, False, True)
+            self.set_motors(1,1,0,1)
             sleep(secs)
 
     def go_r(self,secs):
         if secs == 0:
-            self.set_motors(False, True, True, True)
+            self.set_motors(0,1,1,1)
         else:
-            self.set_motors(False, True, True, True)
+            self.set_motors(0,1,1,1)
             sleep(secs)
 
 #     def __get_distance(self):

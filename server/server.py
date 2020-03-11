@@ -1,5 +1,10 @@
 from bottle import run, route
 
+@route('/')
+def index():
+    print("ping")
+    return "<p>pong</p>"
+
 @route('/routeRobot/<package>/<delivery>', is_xhr=True)
 def routeRobot(package, delivery):
     print('Message recieved: ' + package + " -> " + delivery)

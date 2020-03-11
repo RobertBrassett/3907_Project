@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 
 class ButtonList extends React.Component {
 
-
-
     render() {
         return this.props.buttons.map((btn) => {
             if (btn.type === 'package') {

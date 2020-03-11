@@ -12,26 +12,11 @@ class App extends React.Component {
       },
       {
         id: 2,
-        type: 'package',
-        identifier: 'B',
-        selected: false
-      },
-      {
-        id: 3,
         type: 'delivery',
         identifier: 'A',
         selected: false
       },
-      {
-        id: 4,
-        type: 'delivery',
-        identifier: 'B',
-        selected: false
-      }
-
-    ],
-    packageIdentifier: null,
-    deliveryIdentifier: null
+    ]
   };
 
   selectPackage = (id) => {
@@ -57,56 +42,42 @@ class App extends React.Component {
   }
 
   submitRequest = () => {
-    const {pack, deli} = this.state.options.map(btn => {
-      var packArr = Array(1);
-      var deliArr = Array(1);
+    let buttons = this.state.options.map((btn) => {
       if (btn.selected) {
-        if(btn.type === 'package'){
-          packArr.concat(btn);
-        }
-        else if (btn.type === 'delivery'){
-          deliArr.concat(btn);
-        }
         btn.selected = false;
+        return btn;
       }
-      return {packArr, deliArr};
+    });
+    let filtered = buttons.filter((element) => {
+      return element != null;
     })
+    console.log(filtered);
 
-
-
-    /*this.state.options.forEach( (btn) => {
-          if (btn.selected) {
-            this.buildRequest(btn.type, btn.identifier);
-            btn.selected = false;
-          }
-        }
-    )*/
-    console.log("Sending: " + pack + ' -> ' + deli);
-    this.sendAPIRequest(this.state.packageIdentifier, this.state.deliveryIdentifier);
-  }
-
-  buildRequest = (type, identifier) => {
-    if(type === 'package') {
-      this.setState({packageIdentifier: identifier});
-      console.log(this.state.packageIdentifier);
-    }
-    else if(type === 'delivery') {
-      this.setState({deliveryIdentifier: identifier});
-      console.log(this.state.deliveryIdentifier);
-    }
-    console.log(type + " " + identifier);
+    let pack = filtered.map((btn) => {
+      if(btn.type === 'package') {
+        return btn.identifier;
+      }
+    })
+    let deli = filtered.map((btn) => {
+      if(btn.type === 'delivery') {
+        return btn.identifier;
+      }
+    })
+    console.log("pack | deli " + pack + "|" + deli);
+    this.sendAPIRequest(pack, deli);
   }
 
   sendAPIRequest(pack, delivery) {
     console.log("Sending function values: " + pack + ' -> ' + delivery);
-    console.log("Sending state values: " + this.state.packageIdentifier + ' -> ' + this.state.deliveryIdentifier);
+    fetch("http://127.0.0.1:8080/routeRobot/" + pack + "/" + delivery);
   }
 
   render() {
     return (
         <div className="App">
           <h1>Packages:</h1>
-          <ButtonList buttons={this.state.options} selectPackage={this.selectPackage} selectDelivery={this.selectDelivery}/>
+          <ButtonList buttons={this.state.options} selectPackage={this.selectPackage}
+                      selectDelivery={this.selectDelivery}/>
           <div>
             <h1>Submit</h1>
             <button style={submitBtnStyle} onClick={this.submitRequest}>Submit</button>
